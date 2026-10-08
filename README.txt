@@ -89,3 +89,14 @@ El archivo database/gamezone_store.sql fue ajustado para NO borrar ni crear
 la base de datos de Railway. Ejecútalo sobre la base "railway" para crear
 las tablas y datos iniciales.
 
+
+DOCKER / RAILWAY
+----------------
+Se incluye un Dockerfile que instala pdo_mysql, necesario para la conexión PDO con MySQL.
+Railway debe desplegar el proyecto usando este Dockerfile.
+
+Si usas el formulario de correo en Railway, agrega también:
+  SMTP_USER=tu_correo@gmail.com
+  SMTP_PASSWORD=tu_contraseña_de_aplicacion
+
+No guardes contraseñas de correo ni de MySQL dentro del código fuente.

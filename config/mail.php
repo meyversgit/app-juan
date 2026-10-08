@@ -4,9 +4,17 @@ declare(strict_types=1);
 /* SMTP REAL. Para Gmail usa una contraseña de aplicación, no tu contraseña normal. */
 const SMTP_HOST = 'smtp.gmail.com';
 const SMTP_PORT = 587;
-const SMTP_USER = 'meyversmarmolet@gmail.com';
-const SMTP_PASSWORD = 'maju gmka foao aiti';
+const SMTP_USER = '';
+const SMTP_PASSWORD = '';
+
+// En Railway configura SMTP_USER y SMTP_PASSWORD como variables de entorno.
+// En local puedes definirlas en el servidor antes de iniciar Apache.
 const SMTP_FROM_NAME = 'GameZone Store';
+
+// Sobrescribir las constantes con valores de entorno no es posible directamente,
+// por eso las funciones usan estas variables.
+function smtpUser(): string { return getenv('SMTP_USER') ?: SMTP_USER; }
+function smtpPassword(): string { return getenv('SMTP_PASSWORD') ?: SMTP_PASSWORD; }
 
 function dominioCorreoValido(string $correo): bool {
     if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) return false;
@@ -34,7 +42,7 @@ function smtpCommand($socket, string $command, string $expected): bool {
 
 function enviarCorreo(string $to, string $subject, string $html): bool {
     if (!dominioCorreoValido($to)) return false;
-    if (SMTP_USER === 'TU_CORREO@gmail.com' || SMTP_PASSWORD === 'TU_CONTRASENA_DE_APLICACION') return false;
+    if (smtpUser() === '' || smtpPassword() === '') return false;
 
     $socket = @fsockopen(SMTP_HOST, SMTP_PORT, $errno, $errstr, 15);
     if (!$socket) return false;
@@ -45,14 +53,14 @@ function enviarCorreo(string $to, string $subject, string $html): bool {
     if (!stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) { fclose($socket); return false; }
     if (!smtpCommand($socket, 'EHLO localhost', '250')) { fclose($socket); return false; }
     if (!smtpCommand($socket, 'AUTH LOGIN', '334')) { fclose($socket); return false; }
-    if (!smtpCommand($socket, base64_encode(SMTP_USER), '334')) { fclose($socket); return false; }
-    if (!smtpCommand($socket, base64_encode(SMTP_PASSWORD), '235')) { fclose($socket); return false; }
-    if (!smtpCommand($socket, 'MAIL FROM:<' . SMTP_USER . '>', '250')) { fclose($socket); return false; }
+    if (!smtpCommand($socket, base64_encode(smtpUser()), '334')) { fclose($socket); return false; }
+    if (!smtpCommand($socket, base64_encode(smtpPassword()), '235')) { fclose($socket); return false; }
+    if (!smtpCommand($socket, 'MAIL FROM:<' . smtpUser() . '>', '250')) { fclose($socket); return false; }
     if (!smtpCommand($socket, 'RCPT TO:<' . $to . '>', '250')) { fclose($socket); return false; }
     if (!smtpCommand($socket, 'DATA', '354')) { fclose($socket); return false; }
 
     $headers = [
-        'From: ' . SMTP_FROM_NAME . ' <' . SMTP_USER . '>',
+        'From: ' . SMTP_FROM_NAME . ' <' . smtpUser() . '>',
         'To: <' . $to . '>',
         'Subject: =?UTF-8?B?' . base64_encode($subject) . '?=',
         'MIME-Version: 1.0',
