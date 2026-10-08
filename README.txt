@@ -67,3 +67,25 @@ ACTUALIZACION PERFIL
 --------------------
 Importa database/gamezone_store.sql para una instalacion limpia. Si ya tienes la base creada y no quieres borrarla, ejecuta database/migration_perfil.sql.
 La foto de perfil se guarda como WebP en assets/uploads.
+
+
+RAILWAY
+-------
+El proyecto ya está preparado para usar las variables de entorno de Railway.
+
+En el servicio app-juan, configura estas referencias a tu servicio MySQL:
+
+  MYSQLHOST=${{MySQL.MYSQLHOST}}
+  MYSQLPORT=${{MySQL.MYSQLPORT}}
+  MYSQLUSER=${{MySQL.MYSQLUSER}}
+  MYSQLPASSWORD=${{MySQL.MYSQLPASSWORD}}
+  MYSQLDATABASE=${{MySQL.MYSQLDATABASE}}
+
+El archivo config/db.php toma esas variables automáticamente.
+No escribas la contraseña de MySQL dentro del código.
+
+La base de datos creada por Railway normalmente se llama "railway".
+El archivo database/gamezone_store.sql fue ajustado para NO borrar ni crear
+la base de datos de Railway. Ejecútalo sobre la base "railway" para crear
+las tablas y datos iniciales.
+

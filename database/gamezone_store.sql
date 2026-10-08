@@ -1,4 +1,9 @@
-SET FOREIGN_KEY_CHECKS=0; DROP DATABASE IF EXISTS gamezone_store; CREATE DATABASE gamezone_store CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; USE gamezone_store; SET FOREIGN_KEY_CHECKS=1;
+-- GameZone Store - esquema para Railway MySQL
+-- IMPORTANTE: ejecuta este archivo conectado a la base de datos 'railway'.
+-- No elimina ni crea la base de datos de Railway.
+-- Si las tablas ya existen, revisa antes de ejecutar los CREATE TABLE.
+
+SET FOREIGN_KEY_CHECKS=0;
 
 CREATE TABLE usuarios (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,nombre VARCHAR(100) NOT NULL,correo VARCHAR(150) NOT NULL UNIQUE,clave VARCHAR(255) NOT NULL,rol ENUM('superadmin','admin','usuario') NOT NULL DEFAULT 'usuario',email_verificado TINYINT(1) NOT NULL DEFAULT 0,codigo_verificacion VARCHAR(10) NULL,codigo_expira DATETIME NULL,foto_perfil VARCHAR(500) NULL,creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB;
 CREATE TABLE juegos (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,nombre VARCHAR(150) NOT NULL,descripcion TEXT NOT NULL,precio DECIMAL(10,2) NOT NULL,imagen VARCHAR(500) NOT NULL,categoria VARCHAR(30) NOT NULL,slug VARCHAR(120) NOT NULL UNIQUE,creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB;
@@ -69,3 +74,5 @@ INSERT INTO juegos (nombre,descripcion,precio,imagen,categoria,slug) VALUES ('Br
             Explora un mundo de tamaño sin precedentes y descubre más de 100 santuarios llenos de rompecabezas, además de una amplia variedad de armas, trajes y equipo
             Sube por torres y picos de las montañas en busca de destinos, luego establece tu propio camino para llegar allí y sumergirte en el desierto; en el camino, lucharás contra imponentes enemigos, cazarás bestias salvajes y recolectarás ingredientes para la comida y elixires que necesitarás para mantenerte en tu viaje
             Los santuarios salpican el paisaje, esperando ser descubiertos en el orden que desee; búsquelos de varias maneras y resuelva una variedad de rompecabezas en el interior; abrirse camino a través de las trampas y dispositivos en el interior para ganar artículo',59.90,'assets/juegos-switch/zelda.webp','Switch','zelda');
+
+SET FOREIGN_KEY_CHECKS=1;

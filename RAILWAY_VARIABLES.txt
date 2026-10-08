@@ -1,0 +1,8 @@
+# Variables para app-juan en Railway
+# En Railway, crea estas variables como referencias al servicio MySQL:
+
+MYSQLHOST=${{MySQL.MYSQLHOST}}
+MYSQLPORT=${{MySQL.MYSQLPORT}}
+MYSQLUSER=${{MySQL.MYSQLUSER}}
+MYSQLPASSWORD=${{MySQL.MYSQLPASSWORD}}
+MYSQLDATABASE=${{MySQL.MYSQLDATABASE}}
