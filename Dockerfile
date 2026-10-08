@@ -1,18 +1,19 @@
+
 FROM php:8.2-apache
 
-# Instalar PDO para MySQL
 RUN docker-php-ext-install pdo_mysql
 
-# Dejar solamente un MPM de Apache: prefork
-RUN rm -f /etc/apache2/mods-enabled/mpm_*.load \
-    && rm -f /etc/apache2/mods-enabled/mpm_*.conf \
-    && a2enmod mpm_prefork \
-    && a2enmod rewrite
+# Limpiar todos los MPM habilitados y activar solo prefork
+RUN for f in /etc/apache2/mods-enabled/mpm_*.load /etc/apache2/mods-enabled/mpm_*.conf; do \
+      [ ! -e "$f" ] || rm -f "$f"; \
+    done \
+    && a2enmod mpm_prefork rewrite \
+    && apache2ctl -M 2>&1 | grep mpm
 
-# Copiar el proyecto
 COPY . /var/www/html/
 
-# Permisos
 RUN chown -R www-data:www-data /var/www/html
 
 EXPOSE 80
+
+CMD ["apache2-foreground"]
