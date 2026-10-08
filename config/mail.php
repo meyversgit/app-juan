@@ -4,8 +4,8 @@ declare(strict_types=1);
 /* SMTP REAL. Para Gmail usa una contraseña de aplicación, no tu contraseña normal. */
 const SMTP_HOST = 'smtp.gmail.com';
 const SMTP_PORT = 587;
-const SMTP_USER = '';
-const SMTP_PASSWORD = '';
+const SMTP_USER = 'meyversmarmolet@gmail.com';
+const SMTP_PASSWORD = 'maju gmka foao aiti';
 
 // En Railway configura SMTP_USER y SMTP_PASSWORD como variables de entorno.
 // En local puedes definirlas en el servidor antes de iniciar Apache.
