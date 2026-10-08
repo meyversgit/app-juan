@@ -1,0 +1,3 @@
+Todas las imagenes raster (PNG/JPG/JPEG) del proyecto fueron convertidas a WebP y las referencias fueron actualizadas.
+
+Las portadas ya tenian transparencia alrededor del producto; esa transparencia se conserva en WebP. No se eliminaron zonas negras que forman parte del arte original de las portadas ni del banner de Elden Ring, porque son parte de la imagen. Los SVG se conservaron como SVG por ser iconos vectoriales.
